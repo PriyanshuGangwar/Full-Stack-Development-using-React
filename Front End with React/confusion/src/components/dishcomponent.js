@@ -5,41 +5,41 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 
 
+const maxLength = (len) => (val) => !(val) || (val.length <= len);
+const minLength = (len) => (val) => val && (val.length >= len); 
 
-class dishdetail extends Component {
+class CommentForm extends Component {
 
     constructor(props){
         super(props)
 
+        this.toggleModal = this.toggleModal.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);  
         
         this.state = {
-            
+            isNavOpen : false,
             isModalOpen: false
         };
-        this.toggleModal = this.toggleModal.bind(this);
-   
-      
     }
     
 
-    handleSubmit(values) {
-        console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
-        }
-
-        toggleModal() {
+    toggleModal() {
             this.setState({
             isModalOpen: !this.state.isModalOpen
             });
         }
     
+    
+    handleSubmit(values) {
+            this.toggleModal();
+            this.props.addComment(this.props.dishId, values.rating, values.name, values.comment);
+            console.log(this.props.dishId);
+            }
    
-    render(props){
-
-    const maxLength = (len) => (val) => !(val) || (val.length <= len);
-    const minLength = (len) => (val) => val && (val.length >= len);     
-
-    const Commentform = () => {
+    
+    
+    
+    render() {
         return( 
             <div>
             <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
@@ -102,8 +102,9 @@ class dishdetail extends Component {
             );
 
     }
+}
 
-    function RenderComments({comments}) {
+function RenderComments({comments, addComment, dishId}) {
         if (comments != null){
         
         const com = comments.map((comm) => {
@@ -124,7 +125,7 @@ class dishdetail extends Component {
                         <ul className="list-unstyled">
                             {com }
                         </ul>
-                        <Commentform />
+                        <CommentForm dishId={dishId} addComment={addComment} />
                     </div>);
         }
         else
@@ -134,7 +135,7 @@ class dishdetail extends Component {
 
             
     }
-    function RenderDish({dish}) {
+function RenderDish({dish}) {
         if (dish != null){
         //console.log(dish.dish)
             return(
@@ -152,33 +153,33 @@ class dishdetail extends Component {
             );
     }
 
-    
-        return ( 
+       
+const dishdetail = (props) => {
+        return( 
             <div className="container">
             <div className="row">
                 <Breadcrumb>
 
                     <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
-                    <BreadcrumbItem active>{this.props.dish.name}</BreadcrumbItem>
+                    <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
                 </Breadcrumb>
                 <div className="col-12">
-                    <h3>{this.props.dish.name}</h3>
+                    <h3>{props.dish.name}</h3>
                     <hr />
                 </div>                
             </div>
             <div className="row">
                 <div className="col-12 col-md-5 m-1">
-                    <RenderDish dish={this.props.dish} />
+                    <RenderDish dish={props.dish} />
                 </div>
                 <div className="col-12 col-md-5 m-1">
-                    <RenderComments comments={this.props.comments} />
-                    
+                    <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.dish.id} />
                 </div>
             </div>
             </div>
         );
     }
 
-}   
+  
 
 export default dishdetail;
