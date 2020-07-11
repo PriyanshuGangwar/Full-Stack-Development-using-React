@@ -1,5 +1,4 @@
 import React from 'react';
-import { Control, Form, Errors, actions } from 'react-redux-form';
 
 function Contact(props) {
     return(
