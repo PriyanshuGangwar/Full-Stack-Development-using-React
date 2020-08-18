@@ -5,7 +5,7 @@ const leaderRouter = express.Router();
 
 leaderRouter.use(bodyParser.json());
 
-leaderRouter.route('/leaders')
+leaderRouter.route('/')
 .all((req,res,next) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
@@ -25,7 +25,7 @@ leaderRouter.route('/leaders')
     res.end('Deleting all leaders');
 });
 
-leaderRouter.route('/leaders/:leaderId')
+leaderRouter.route('/:leaderId')
 .get((req,res,next) => {
     res.end('Will send details of the leader: ' + req.params.leaderId +' to you!');
 })

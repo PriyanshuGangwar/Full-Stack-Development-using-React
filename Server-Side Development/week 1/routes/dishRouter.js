@@ -5,7 +5,7 @@ const dishRouter = express.Router();
 
 dishRouter.use(bodyParser.json());
 
-dishRouter.route('/dishes')
+dishRouter.route('/')
 .all((req,res,next) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
@@ -25,7 +25,7 @@ dishRouter.route('/dishes')
     res.end('Deleting all dishes');
 });
 
-dishRouter.route('/dishes/:dishId')
+dishRouter.route('/:dishId')
 .get((req,res,next) => {
     res.end('Will send details of the dish: ' + req.params.dishId +' to you!');
 })

@@ -5,7 +5,7 @@ const promoRouter = express.Router();
 
 promoRouter.use(bodyParser.json());
 
-promoRouter.route('/promotions')
+promoRouter.route('/')
 .all((req,res,next) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
@@ -25,7 +25,7 @@ promoRouter.route('/promotions')
     res.end('Deleting all promotions');
 });
 
-promoRouter.route('/promotions/:promoId')
+promoRouter.route('/:promoId')
 .get((req,res,next) => {
     res.end('Will send details of the promotion: ' + req.params.promoId +' to you!');
 })
